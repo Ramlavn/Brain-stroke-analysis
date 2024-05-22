@@ -17,21 +17,14 @@ st.title('📊  Data Visualizer')
 github_url = "https://raw.githubusercontent.com/Ramlavn/Data-viz/master/Brain_Stroke_Analysis.csv"
 
 # Function to download the CSV file from GitHub
-def download_csv_from_github(url):
-    print("Attempting to download from:", url)  # Debugging output
-    csv_content = requests.get(url).content.decode('utf-8')
-    return pd.read_csv(StringIO(csv_content))
+folder_path =   # Update this to your folder path
 
-# Download the CSV file
-df = download_csv_from_github(github_url)
+# List all files in the folder
+files = [f for f in os.listdir(folder_path) if f.endswith('.csv')]
+
 
 # Dropdown to select a file
 selected_file = st.selectbox('Select a file', files, index=None)
-
-if selected_file:
-    # Construct the full path to the file
-    file_path = os.path.join(folder_path, selected_file)
-
     # Read the selected CSV file
     df = pd.read_csv(file_path)
 
