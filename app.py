@@ -35,7 +35,7 @@ if selected_file != 'Choose a file':
         st.error("Invalid file selected.")
         st.stop()
 
-    # Display the first few rows of the DataFrame
+   # Display the first few rows of the DataFrame
     st.write(df.head())
 
     # Get the list of columns from the DataFrame
