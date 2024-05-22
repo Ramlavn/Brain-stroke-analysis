@@ -18,6 +18,7 @@ github_url = "https://raw.githubusercontent.com/Ramlavn/Data-viz/master/Brain_St
 
 # Function to download the CSV file from GitHub
 def download_csv_from_github(url):
+    print("Attempting to download from:", url)  # Debugging output
     csv_content = requests.get(url).content.decode('utf-8')
     return pd.read_csv(StringIO(csv_content))
 
