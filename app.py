@@ -21,33 +21,8 @@ def download_csv_from_github(url):
     csv_content = requests.get(url).content.decode('utf-8')
     return pd.read_csv(StringIO(csv_content))
 
-# Download the CSV file
-df = download_csv_from_github(github_url)
-
-# Dropdown to select a file
-selected_file = st.selectbox('Select a file', options=[github_url])
-
-# Display the DataFrame
-st.write(df.head())
-
-if st.button('Generate Plot'):
-    col1, col2 = st.columns(2)
-    columns = df.columns.tolist()
-
-    with col1:
-        st.write("")
-        st.write(df.head())
-
-    with col2:
-        # Allow the user to select columns for plotting
-        x_axis = st.selectbox('Select the X-axis', options=columns+["None"])
-        y_axis = st.selectbox('Select the Y-axis', options=columns+["None"])
-
-        plot_list = ['Line Plot', 'Bar Chart', 'Scatter Plot', 'Distribution Plot', 'Count Plot']
-        # Allow the user to select the type of plot
-        plot_type = st.selectbox('Select the type of plot', options=plot_list)
-
-    # Generate the plot based on user selection
+# Function to generate plot
+def generate_plot(df, x_axis, y_axis, plot_type):
     fig, ax = plt.subplots(figsize=(6, 4))
     if plot_type == 'Line Plot':
         sns.lineplot(x=df[x_axis], y=df[y_axis], ax=ax)
@@ -73,3 +48,33 @@ if st.button('Generate Plot'):
 
     # Show the results
     st.pyplot(fig)
+
+# Download the CSV file
+df = download_csv_from_github(github_url)
+
+# Dropdown to select a file
+selected_file = st.selectbox('Select a file', options=[github_url])
+
+# Display the DataFrame
+st.write(df.head())
+
+# Generate Plot button
+if st.button('Generate Plot'):
+    col1, col2 = st.columns(2)
+    columns = df.columns.tolist()
+
+    with col1:
+        st.write("")
+        st.write(df.head())
+
+    with col2:
+        # Allow the user to select columns for plotting
+        x_axis = st.selectbox('Select the X-axis', options=columns+["None"])
+        y_axis = st.selectbox('Select the Y-axis', options=columns+["None"])
+
+        plot_list = ['Line Plot', 'Bar Chart', 'Scatter Plot', 'Distribution Plot', 'Count Plot']
+        # Allow the user to select the type of plot
+        plot_type = st.selectbox('Select the type of plot', options=plot_list)
+
+    # Generate the plot based on user selection
+    generate_plot(df, x_axis, y_axis, plot_type)
