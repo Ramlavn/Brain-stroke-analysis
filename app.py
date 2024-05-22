@@ -24,7 +24,7 @@ st.title('📊  Data Visualizer Web App')
 selected_file = st.selectbox('Select a file', options=["Select a file", "Brain_Stroke_Analysis.csv"], index=0)
 
 # Load the data if a file is selected
-if selected_file != "Select an option":
+if selected_file != "Select a file":
     github_url = "https://raw.githubusercontent.com/Ramlavn/Data-viz/master/Brain_Stroke_Analysis.csv"
     df = pd.read_csv(github_url)
 
