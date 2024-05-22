@@ -6,7 +6,7 @@ import seaborn as sns
 from datetime import datetime
 
 # Set the page config
-st.set_page_config(page_title='Data Visualizer Web App',
+st.set_page_config(page_title='Data Visualizer',
                    layout='centered',
                    page_icon='📊')
 
@@ -18,7 +18,7 @@ current_date = datetime.now().strftime("%Y-%m-%d")
 st.write(f"Current Date: {current_date}")
 
 # Title with dropdown
-st.title('📊  Data Visualizer')
+st.title('📊  Data Visualizer Web App')
 
 # Dropdown to select a file
 selected_file = st.selectbox('Select a file', options=["Select an option", "Brain_Stroke_Analysis.csv"], index=0)
