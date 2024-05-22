@@ -79,6 +79,6 @@ if select_option == 'Brain Stroke Analysis':
 
             # Show the plot
             st.pyplot(fig)
-
+ 
         # Generate the plot
         generate_plot(df, x_axis, y_axis, plot_type)
