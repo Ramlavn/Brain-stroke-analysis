@@ -21,7 +21,7 @@ st.write(f"Current Date: {current_date}")
 st.title('📊  Data Visualizer Web App')
 
 # Dropdown to select a file
-selected_file = st.selectbox('Select a file', options=["Select an option", "Brain_Stroke_Analysis.csv"], index=0)
+selected_file = st.selectbox('Select a file', options=["Select a file", "Brain_Stroke_Analysis.csv"], index=0)
 
 # Load the data if a file is selected
 if selected_file != "Select an option":
