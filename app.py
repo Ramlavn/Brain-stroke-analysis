@@ -43,7 +43,7 @@ if selected_file != 'Choose a file':
 
     # Layout with two columns for selecting X-axis, Y-axis, and plot type
     col1, col2 = st.columns(2)
- with col1:
+    with col1:
         # Dropdown for selecting X-axis
         x_axis = st.selectbox('Select the X-axis', options=["None"] + columns, key='x_axis')
         # Dropdown for selecting Y-axis
