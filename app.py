@@ -1,50 +1,75 @@
 import streamlit as st
 import pandas as pd
+import os
 import matplotlib.pyplot as plt
 import seaborn as sns
+from datetime import datetime
 
-# Set up the Streamlit page configuration
-st.set_page_config(page_title='Data Visualizer', layout='centered', page_icon='📊')
+# Set the page config
+st.set_page_config(page_title='Data Visualizer',
+                   layout='centered',
+                   page_icon='📊')
 
-# Title of the app
-st.title('📊 Data Visualizer')
+# Author name
+st.write("Author: Ramlavan")
+
+# Current date
+current_date = datetime.now().strftime("%Y-%m-%d")
+st.write(f"Current Date: {current_date}")
+
+# Title with dropdown
+st.title('📊  Data Visualizer')
+
+# Dropdown to select a file
+# Dropdown to select a file
+selected_file = st.selectbox('Select a file', options=["Select an option", "Brain_Stroke_Analysis.csv"], index=0)
 
 # Load the data
 github_url = "https://raw.githubusercontent.com/Ramlavn/Data-viz/master/Brain_Stroke_Analysis.csv"
 df = pd.read_csv(github_url)
 
-# Display the first few rows of the DataFrame
-st.write(df.head())
-
-# Get the list of columns from the DataFrame
 columns = df.columns.tolist()
 
-# Layout with two columns for selecting X-axis, Y-axis, and plot type
-x_axis = st.selectbox('Select the X-axis', options=["None"] + columns)
-y_axis = st.selectbox('Select the Y-axis', options=["None"] + columns)
-plot_type = st.selectbox('Select the type of plot', options=['Line Plot', 'Bar Chart', 'Scatter Plot', 'Distribution Plot', 'Count Plot'])
+col1, col2 = st.columns(2)
 
-# Button to generate the plot
+with col1:
+    st.write("")
+    st.write(df.head())
+
+with col2:
+    # Allow the user to select columns for plotting
+    x_axis = st.selectbox('Select the X-axis', options=columns+["None"])
+    y_axis = st.selectbox('Select the Y-axis', options=columns+["None"])
+
+    plot_list = ['Line Plot', 'Bar Chart', 'Scatter Plot', 'Distribution Plot', 'Count Plot']
+    # Allow the user to select the type of plot
+    plot_type = st.selectbox('Select the type of plot', options=plot_list)
+
+# Generate the plot based on user selection
 if st.button('Generate Plot'):
-    # Function to generate the selected plot
-    def generate_plot():
-        fig, ax = plt.subplots(figsize=(6, 4))
-        if plot_type == 'Distribution Plot':
-            sns.histplot(df[x_axis], kde=True, ax=ax)
-        elif plot_type == 'Count Plot':
-            sns.countplot(x=df[x_axis], ax=ax)
-        else:
-            sns.barplot(x=x_axis, y=y_axis, data=df, ax=ax) if plot_type == 'Bar Chart' else \
-            sns.lineplot(x=x_axis, y=y_axis, data=df, ax=ax) if plot_type == 'Line Plot' else \
-            sns.scatterplot(x=x_axis, y=y_axis, data=df, ax=ax)
-        # Adjust plot settings
-        ax.tick_params(axis='x', labelsize=10)
-        ax.tick_params(axis='y', labelsize=10)
-        # Set the title and axis labels
-        plt.title(f'{plot_type} of {y_axis} vs {x_axis}', fontsize=12)
-        plt.xlabel(x_axis, fontsize=10)
-        plt.ylabel(y_axis, fontsize=10)
-        # Display the plot
-        st.pyplot(fig)
-        
-    generate_plot()
+    fig, ax = plt.subplots(figsize=(6, 4))
+
+    if plot_type == 'Line Plot':
+        sns.lineplot(x=df[x_axis], y=df[y_axis], ax=ax)
+    elif plot_type == 'Bar Chart':
+        sns.barplot(x=df[x_axis], y=df[y_axis], ax=ax)
+    elif plot_type == 'Scatter Plot':
+        sns.scatterplot(x=df[x_axis], y=df[y_axis], ax=ax)
+    elif plot_type == 'Distribution Plot':
+        sns.histplot(df[x_axis], kde=True, ax=ax)
+        y_axis='Density'
+    elif plot_type == 'Count Plot':
+        sns.countplot(x=df[x_axis], ax=ax)
+        y_axis = 'Count'
+
+    # Adjust label sizes
+    ax.tick_params(axis='x', labelsize=10)  # Adjust x-axis label size
+    ax.tick_params(axis='y', labelsize=10)  # Adjust y-axis label size
+
+    # Adjust title and axis labels with a smaller font size
+    plt.title(f'{plot_type} of {y_axis} vs {x_axis}', fontsize=12)
+    plt.xlabel(x_axis, fontsize=10)
+    plt.ylabel(y_axis, fontsize=10)
+
+    # Show the results
+    st.pyplot(fig)
