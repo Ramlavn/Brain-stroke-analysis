@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
-from datetime import date
+import matplotlib.pyplot as plt
+import seaborn as sns
+import os
 
 # Set up the Streamlit page configuration
 st.set_page_config(page_title='Data Visualizer',
