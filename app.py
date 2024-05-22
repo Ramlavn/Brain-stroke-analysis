@@ -23,18 +23,17 @@ st.title('📊 Data Visualizer')
 
 # Dropdown to select a file
 github_url = "https://raw.githubusercontent.com/Ramlavn/Data-viz/master/Brain_Stroke_Analysis.csv"
-selected_file = st.selectbox('Select a file', ['Choose a file', github_url])
+csv_file_name = "Brain_Stroke_Analysis.csv"  # Name of the CSV file
+selected_file = st.selectbox('Select a file', ['Choose a file', csv_file_name])
 
 # Check if a file is selected
 if selected_file != 'Choose a file':
-    # Function to download the CSV file from GitHub
-    @st.cache
-    def download_csv_from_github(url):
-        csv_content = requests.get(url).content.decode('utf-8')
-        return pd.read_csv(StringIO(csv_content))
-
-    # Download the CSV file
-    df = download_csv_from_github(selected_file)
+    # Load the CSV file
+    if selected_file == csv_file_name:
+        df = pd.read_csv(github_url)
+    else:
+        st.error("Invalid file selected.")
+        st.stop()
 
     # Display the first few rows of the DataFrame
     st.write(df.head())
