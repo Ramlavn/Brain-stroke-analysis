@@ -24,30 +24,31 @@ def download_csv_from_github(url):
 # Download the CSV file
 df = download_csv_from_github(github_url)
 
+# Dropdown to select a file
+selected_file = st.selectbox('Select a file', options=[github_url])
+
 # Display the DataFrame
 st.write(df.head())
 
-# Allow the user to select columns for plotting
-col1, col2 = st.columns(2)
-columns = df.columns.tolist()
-
-with col1:
-    st.write("")
-    st.write(df.head())
-
-with col2:
-    # Allow the user to select columns for plotting
-    x_axis = st.selectbox('Select the X-axis', options=columns+["None"])
-    y_axis = st.selectbox('Select the Y-axis', options=columns+["None"])
-
-    plot_list = ['Line Plot', 'Bar Chart', 'Scatter Plot', 'Distribution Plot', 'Count Plot']
-    # Allow the user to select the type of plot
-    plot_type = st.selectbox('Select the type of plot', options=plot_list)
-
-# Generate the plot based on user selection
 if st.button('Generate Plot'):
-    fig, ax = plt.subplots(figsize=(6, 4))
+    col1, col2 = st.columns(2)
+    columns = df.columns.tolist()
 
+    with col1:
+        st.write("")
+        st.write(df.head())
+
+    with col2:
+        # Allow the user to select columns for plotting
+        x_axis = st.selectbox('Select the X-axis', options=columns+["None"])
+        y_axis = st.selectbox('Select the Y-axis', options=columns+["None"])
+
+        plot_list = ['Line Plot', 'Bar Chart', 'Scatter Plot', 'Distribution Plot', 'Count Plot']
+        # Allow the user to select the type of plot
+        plot_type = st.selectbox('Select the type of plot', options=plot_list)
+
+    # Generate the plot based on user selection
+    fig, ax = plt.subplots(figsize=(6, 4))
     if plot_type == 'Line Plot':
         sns.lineplot(x=df[x_axis], y=df[y_axis], ax=ax)
     elif plot_type == 'Bar Chart':
