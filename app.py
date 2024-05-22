@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import requests
 from io import StringIO
-import os
 
 # Set up the Streamlit page configuration
 st.set_page_config(page_title='Data Visualizer',
@@ -90,18 +89,4 @@ if st.button('Generate Plot'):
         st.pyplot(fig)
 
     # Generate the plot based on user selection
-    generate_plot(df, x_axis, y_axis, plot_type)      add this: def main():
-    author_name = "Your Name"  # Replace "Your Name" with your actual name
-    current_date = datetime.datetime.now().strftime("%Y-%m-%d")
-    
-    html_temp = """
-    <div style="text-align:left;">
-        <p style="font-size: 14px; color: ##888888;">Author: Ramlavan</p>
-        <p style="font-size: 14px; color: #8888888;">Date: """ + current_date + """</p>
-    </div>
-    <div style="background-color:#6495ED;padding:10px">
-        <h2 style="color:white;text-align:center;">Car Price Prediction</h2>
-    </div>
-    <br>
-    """
-    st.markdown(html_temp, unsafe_allow_html=True)
+    generate_plot(df, x_axis, y_axis, plot_type)
