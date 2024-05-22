@@ -17,7 +17,7 @@ st.title('📊 Data Visualizer')
 github_url = "https://raw.githubusercontent.com/Ramlavn/Data-viz/master/Brain_Stroke_Analysis.csv"
 
 # Function to download the CSV file from GitHub
-@st.cache_data
+@st.cache
 def download_csv_from_github(url):
     csv_content = requests.get(url).content.decode('utf-8')
     return pd.read_csv(StringIO(csv_content))
@@ -25,30 +25,40 @@ def download_csv_from_github(url):
 # Download the CSV file
 df = download_csv_from_github(github_url)
 
+# Dropdown to select a file
+selected_file = st.selectbox('Select a file', ['Choose a file'] + df.columns.tolist())
+
 # Display the DataFrame
 st.write(df.head())
-
-# Get the list of columns from the DataFrame
-columns = df.columns.tolist()
 
 # Layout with two columns for selecting X-axis, Y-axis, and plot type
 col1, col2 = st.columns(2)
 
 with col1:
     # Dropdown for selecting X-axis
-    x_axis = st.selectbox('Select the X-axis', options=["None"] + columns, key='x_axis')
+    x_axis = st.selectbox('Select the X-axis', options=["None"] + df.columns.tolist())
     # Dropdown for selecting Y-axis
-    y_axis = st.selectbox('Select the Y-axis', options=["None"] + columns, key='y_axis')
+    y_axis = st.selectbox('Select the Y-axis', options=["None"] + df.columns.tolist())
 
 with col2:
     # Dropdown for selecting the type of plot
     plot_list = ['Line Plot', 'Bar Chart', 'Scatter Plot', 'Distribution Plot', 'Count Plot']
-    plot_type = st.selectbox('Select the type of plot', options=plot_list, key='plot_type')
+    plot_type = st.selectbox('Select the type of plot', options=plot_list)
 
 # Button to generate the plot
 if st.button('Generate Plot'):
     # Function to generate the selected plot
     def generate_plot(df, x_axis, y_axis, plot_type):
+        if plot_type == 'Distribution Plot' and x_axis == "None":
+            st.error("Please select a column for the X-axis.")
+            return
+        elif plot_type == 'Count Plot' and (x_axis == "None" and y_axis == "None"):
+            st.error("Please select a column for either the X-axis or Y-axis.")
+            return
+        elif x_axis == "None" or y_axis == "None":
+            st.error("Please select both X-axis and Y-axis.")
+            return
+
         fig, ax = plt.subplots(figsize=(6, 4))
 
         if plot_type == 'Line Plot':
@@ -58,11 +68,7 @@ if st.button('Generate Plot'):
         elif plot_type == 'Scatter Plot':
             sns.scatterplot(x=df[x_axis], y=df[y_axis], ax=ax)
         elif plot_type == 'Distribution Plot':
-            if x_axis != "None":
-                sns.histplot(df[x_axis], kde=True, ax=ax)
-            else:
-                st.error("Please select a column for the X-axis.")
-                return
+            sns.histplot(df[x_axis], kde=True, ax=ax)
         elif plot_type == 'Count Plot':
             if x_axis != "None":
                 sns.countplot(x=df[x_axis], ax=ax)
@@ -70,9 +76,6 @@ if st.button('Generate Plot'):
             elif y_axis != "None":
                 sns.countplot(y=df[y_axis], ax=ax)
                 plt.ylabel(y_axis, fontsize=10)
-            else:
-                st.error("Please select a column for either the X-axis or Y-axis.")
-                return
             plt.ylabel('Count', fontsize=10)
 
         # Adjust plot settings
