@@ -6,7 +6,7 @@ import seaborn as sns
 from datetime import datetime
 
 # Set the page config
-st.set_page_config(page_title='Data Visualizer',
+st.set_page_config(page_title='Data Visualizer Web App',
                    layout='centered',
                    page_icon='📊')
 
