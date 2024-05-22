@@ -11,14 +11,10 @@ st.set_page_config(page_title='Data Visualizer',
 # Title of the app
 st.title('📊 Data Visualizer')
 
-# URL of the CSV file
-github_url = "https://raw.githubusercontent.com/Ramlavn/Data-viz/master/Brain_Stroke_Analysis.csv"
-
-# Extract file name from the URL
-file_name = github_url.split("/")[-1]
-
 # Dropdown to select a file
-selected_file = st.selectbox('Select a file', [file_name])
+github_url = "https://raw.githubusercontent.com/Ramlavn/Data-viz/master/Brain_Stroke_Analysis.csv"
+file_name = "Brain_Stroke_Analysis.csv"  # Extract file name from the URL
+selected_file = st.selectbox('Select a file', ['Choose a file', file_name])
 
 # Check if a file is selected
 if selected_file == file_name:
