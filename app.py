@@ -9,16 +9,16 @@ st.set_page_config(page_title='Data Visualizer',
                    layout='centered',
                    page_icon='📊')
 
-# Title of the app
-st.title('📊 Data Visualizer')
-
 # Author name
-author_name = "Your Name"
+author_name = "Ramlavan"
 # Current date
 current_date = date.today().strftime("%B %d, %Y")
 
-# Write author name and current date above the title
+# Author name and current date above the title
 st.write(f"Author: {author_name} | Date: {current_date}")
+
+# Title of the app
+st.title('📊 Data Visualizer')
 
 # Dropdown to select a file
 github_url = "https://raw.githubusercontent.com/Ramlavn/Data-viz/master/Brain_Stroke_Analysis.csv"
