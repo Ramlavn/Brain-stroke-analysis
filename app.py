@@ -14,12 +14,12 @@ author_name = "Ramlavan"
 # Current date
 current_date = date.today().strftime("%B %d, %Y")
 
-# Title of the app
-st.title('📊 Data Visualizer')
-
-# Author name and current date below the title
+# Author name and current date above the title
 st.write(f"Author: {author_name}")
 st.write(f"Date: {current_date}")
+
+# Title of the app
+st.title('📊 Data Visualizer')
 
 # Dropdown to select a file
 github_url = "https://raw.githubusercontent.com/Ramlavn/Data-viz/master/Brain_Stroke_Analysis.csv"
