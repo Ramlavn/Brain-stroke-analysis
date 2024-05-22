@@ -22,10 +22,10 @@ def download_csv_from_github(url):
     return pd.read_csv(StringIO(csv_content))
 
 # Dropdown to select an option
-select_option = st.selectbox('Select an option', ['Select a file', 'Automatically select file'])
+select_option = st.selectbox('Select an option', ['Select a file', 'Brain Stroke Analysis'])
 
 # Download the CSV file if option is 'Automatically select file'
-if select_option == 'Automatically select file':
+if select_option == 'Brain Stroke Analysis':
     # Download the CSV file
     df = download_csv_from_github(github_url)
 
