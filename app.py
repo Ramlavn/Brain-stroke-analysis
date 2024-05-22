@@ -14,7 +14,7 @@ st.title('📊  Data Visualizer')
 
 # Specify the folder where your CSV files are located
 
-folder_path = r'Brain_Stroke_Analysis.csv'   # Update this to your folder path
+folder_path = https://github.com/Ramlavn/Data-viz/blob/master/Brain_Stroke_Analysis.csv   # Update this to your folder path
 
 # List all files in the folder
 files = [f for f in(folder_path) if f.endswith('.csv')]
