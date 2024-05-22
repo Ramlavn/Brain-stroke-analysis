@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import requests
 from io import StringIO
+from datetime import date
 
 # Set up the Streamlit page configuration
 st.set_page_config(page_title='Data Visualizer',
@@ -11,13 +12,20 @@ st.set_page_config(page_title='Data Visualizer',
 # Title of the app
 st.title('📊 Data Visualizer')
 
+# Author name
+author_name = "Your Name"
+# Current date
+current_date = date.today().strftime("%B %d, %Y")
+
+# Write author name and current date above the title
+st.write(f"Author: {author_name} | Date: {current_date}")
+
 # Dropdown to select a file
 github_url = "https://raw.githubusercontent.com/Ramlavn/Data-viz/master/Brain_Stroke_Analysis.csv"
-file_name = "Brain_Stroke_Analysis.csv"  # Extract file name from the URL
-selected_file = st.selectbox('Select a file', ['Choose a file', file_name])
+selected_file = st.selectbox('Select a file', ['Choose a file', github_url])
 
 # Check if a file is selected
-if selected_file == file_name:
+if selected_file != 'Choose a file':
     # Function to download the CSV file from GitHub
     @st.cache
     def download_csv_from_github(url):
@@ -25,7 +33,7 @@ if selected_file == file_name:
         return pd.read_csv(StringIO(csv_content))
 
     # Download the CSV file
-    df = download_csv_from_github(github_url)
+    df = download_csv_from_github(selected_file)
 
     # Display the first few rows of the DataFrame
     st.write(df.head())
