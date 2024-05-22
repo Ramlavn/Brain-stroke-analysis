@@ -41,6 +41,7 @@ if selected_file != 'Choose a file':
 
     # Layout with two columns for selecting X-axis, Y-axis, and plot type
     col1, col2 = st.columns(2)
+
     with col1:
         # Dropdown for selecting X-axis
         x_axis = st.selectbox('Select the X-axis', options=["None"] + columns, key='x_axis')
@@ -56,26 +57,32 @@ if selected_file != 'Choose a file':
     if st.button('Generate Plot'):
         # Function to generate the selected plot
         def generate_plot(df, x_axis, y_axis, plot_type):
-            if plot_type == 'Line Plot':
-                st.line_chart(df[[x_axis, y_axis]])
-            elif plot_type == 'Bar Chart':
-                st.bar_chart(df[[x_axis, y_axis]])
-            elif plot_type == 'Scatter Plot':
-                st.scatter_chart(df[[x_axis, y_axis]])
-            elif plot_type == 'Distribution Plot':
-                if x_axis != "None":
-                    st.line_chart(df[x_axis].value_counts())
-                else:
-                    st.error("Please select a column for the X-axis.")
-                    return
-            elif plot_type == 'Count Plot':
-                if x_axis != "None":
-                    st.bar_chart(df[x_axis].value_counts())
-                elif y_axis != "None":
-                    st.bar_chart(df[y_axis].value_counts())
-                else:
-                    st.error("Please select a column for either the X-axis or Y-axis.")
-                    return
+            fig, ax = plt.subplots(figsize=(6, 4))
 
-        # Generate the plot based on user selection
-        generate_plot(df, x_axis, y_axis, plot_type)
+            if plot_type == 'Line Plot':
+                sns.lineplot(x=df[x_axis], y=df[y_axis], ax=ax)
+
+            elif plot_type == 'Bar Chart':
+                sns.barplot(x=df[x_axis], y=df[y_axis], ax=ax)
+
+            elif plot_type == 'Scatter Plot':
+                sns.scatterplot(x=df[x_axis], y=df[y_axis], ax=ax)
+
+            elif plot_type == 'Distribution Plot':
+                sns.histplot(df[x_axis], kde=True, ax=ax)
+                
+            elif plot_type == 'Count Plot':
+                sns.countplot(x=df[x_axis], ax=ax)
+
+
+            # Adjust plot settings
+            ax.tick_params(axis='x', labelsize=10)  # Adjust x-axis label size
+            ax.tick_params(axis='y', labelsize=10)  # Adjust y-axis label size
+
+            # Set the title and axis labels
+            plt.title(f'{plot_type} of {y_axis} vs {x_axis}', fontsize=12)
+            plt.xlabel(x_axis, fontsize=10)
+            plt.ylabel(y_axis, fontsize=10)
+
+            # Display the plot
+            st.pyplot(fig)
