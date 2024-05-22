@@ -14,11 +14,15 @@ st.title('📊  Data Visualizer')
 
 # Specify the folder where your CSV files are located
 
-folder_path = https://github.com/Ramlavn/Data-viz/blob/master/Brain_Stroke_Analysis.csv   # Update this to your folder path
+github_url = "https://raw.githubusercontent.com/Ramlavn/Data-viz/master/Brain_Stroke_Analysis.csv"
 
-# List all files in the folder
-files = [f for f in(folder_path) if f.endswith('.csv')]
+# Function to download the CSV file from GitHub
+def download_csv_from_github(url):
+    csv_content = requests.get(url).content.decode('utf-8')
+    return pd.read_csv(StringIO(csv_content))
 
+# Download the CSV file
+df = download_csv_from_github(github_url)
 
 # Dropdown to select a file
 selected_file = st.selectbox('Select a file', files, index=None)
