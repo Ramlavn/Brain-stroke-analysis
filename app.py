@@ -25,6 +25,7 @@ def download_csv_from_github(url):
 # Dropdown to select an option
 select_option = st.selectbox('Select an option', ['Choose an option', 'Brain Stroke Analysis'])
 
+# Check the selected option
 if select_option == 'Brain Stroke Analysis':
     # Download the CSV file
     df = download_csv_from_github(github_url)
@@ -50,8 +51,10 @@ if select_option == 'Brain Stroke Analysis':
 
     # Generate Plot button
     if st.button('Generate Plot'):
+        # Function to generate the plot based on user selection
         def generate_plot(df, x_axis, y_axis, plot_type):
             fig, ax = plt.subplots(figsize=(6, 4))
+            
             if plot_type == 'Line Plot':
                 sns.lineplot(x=df[x_axis], y=df[y_axis], ax=ax)
             elif plot_type == 'Bar Chart':
@@ -66,16 +69,16 @@ if select_option == 'Brain Stroke Analysis':
                 y_axis = 'Count'
 
             # Adjust label sizes
-            ax.tick_params(axis='x', labelsize=10)  # Adjust x-axis label size
-            ax.tick_params(axis='y', labelsize=10)  # Adjust y-axis label size
+            ax.tick_params(axis='x', labelsize=10)
+            ax.tick_params(axis='y', labelsize=10)
 
-            # Adjust title and axis labels with a smaller font size
+            # Adjust title and axis labels
             plt.title(f'{plot_type} of {y_axis} vs {x_axis}', fontsize=12)
             plt.xlabel(x_axis, fontsize=10)
             plt.ylabel(y_axis, fontsize=10)
 
-            # Show the results
+            # Show the plot
             st.pyplot(fig)
 
-        # Generate the plot based on user selection
+        # Generate the plot
         generate_plot(df, x_axis, y_axis, plot_type)
